@@ -35,40 +35,17 @@ public class MergeSortTest {
     }
     @Test
     void testMetricsInCsv() throws IOException {
-        int[] sizes = {1000, 2000, 4000, 8000, 10000, 16000};  // Добавь больше n
+        int[] sizes = {1000, 2000, 4000, 8000, 10000, 16000};
         try (PrintWriter writer = new PrintWriter("mergesort_metrics.csv")) {
             writer.println("n,time,maxDepth,comparisons");
             for (int n : sizes) {
                 MergeSort ms = new MergeSort();
                 int[] arr = new int[n];
-                Random rand = new Random(42);  // Фиксируем seed для воспроизводимости
+                Random rand = new Random(42);
                 for (int i = 0; i < n; i++) arr[i] = rand.nextInt(1000000);
-                ms.sort(arr);  // Используй внутреннюю запись
+                ms.sort(arr);
             }
         }
-        // Проверка (как раньше) или пропусти для ручной проверки
     }
-//    @Test
-//    void testMetricsInCsv() throws IOException {
-//        MergeSort ms = new MergeSort();
-//        int[] arr = new int[10000];
-//        Random rand = new Random();
-//        for (int i = 0; i < arr.length; i++) arr[i] = rand.nextInt(1000000);
-//        ms.sort(arr);
-//
-//        try (BufferedReader reader = new BufferedReader(new FileReader("mergesort.csv"))) {
-//            String header = reader.readLine();
-//            assertTrue(header.contains("n,time,maxDepth,comparisons"));
-//            String data = reader.readLine();
-//            String[] values = data.split(",");
-//            int n = Integer.parseInt(values[0]);
-//            long time = Long.parseLong(values[1]);
-//            int maxDepth = Integer.parseInt(values[2]);
-//            long comparisons = Long.parseLong(values[3]);
-//            assertEquals(10000, n);
-//            assertTrue(time > 0);
-//            assertTrue(maxDepth > 0 && maxDepth <= Math.log(n) / Math.log(2) * 2);
-//            assertTrue(comparisons > 0);
-//        }
-//    }
+
 }
