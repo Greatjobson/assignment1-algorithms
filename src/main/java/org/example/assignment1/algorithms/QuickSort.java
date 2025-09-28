@@ -1,14 +1,20 @@
 package org.example.assignment1.algorithms;
-
+import org.example.assignment1.metrics.MetricCollector;
 import org.example.assignment1.util.Util;
 
 public class QuickSort {
     private static final int INSERTION_SORT_THRESHOLD = 16;
-
+    MetricCollector mc = new MetricCollector();
     public void sort(int[] arr) {
         if (arr == null || arr.length == 0) return;
-        Util.checkArray(arr);
+
+        mc.startTimer();
         quickSort(arr, 0, arr.length - 1);
+        try {
+            mc.writeToCsv("data/quicksort_metrics.csv", arr.length, mc.stopTimer());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void quickSort(int[] arr, int low, int high) {

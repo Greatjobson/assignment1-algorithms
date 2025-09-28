@@ -1,17 +1,39 @@
 package org.example.assignment1;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import org.example.assignment1.algorithms.ClosestPair;
+import org.example.assignment1.algorithms.DeterministicSelect;
+import org.example.assignment1.algorithms.MergeSort;
+import org.example.assignment1.algorithms.QuickSort;
+import org.example.assignment1.metrics.MetricCollector;
+
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        for (int n = 100; n <= 2000; n += 100) {
+            // Генерация данных
+            int[] arr = new int[n];
+            Random rand = new Random();
+            for (int i = 0; i < n; i++) arr[i] = rand.nextInt(1000);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+            ClosestPair.Point[] points = new ClosestPair.Point[n];
+            for (int i = 0; i < n; i++) points[i] = new ClosestPair.Point(rand.nextInt(1000), rand.nextInt(1000));
+
+            // Запуск алгоритмов и запись метрик
+            MergeSort mergeSort = new MergeSort();
+            mergeSort.sort(arr.clone());
+
+            QuickSort quickSort = new QuickSort();
+            quickSort.sort(arr.clone());
+
+            MetricCollector mc = new MetricCollector();
+            DeterministicSelect select = new DeterministicSelect(mc);
+            select.select(arr.clone(), n / 2);
+
+            ClosestPair closestPair = new ClosestPair();
+            closestPair.findClosestPair(points);
         }
+
+        System.out.println("metrics in data.");
     }
 }

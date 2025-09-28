@@ -1,4 +1,4 @@
-package org.example.assignment1.algorithms;  // Можно изменить пакет, если нужно
+package org.example.assignment1.algorithms;
 
 import org.example.assignment1.metrics.MetricCollector;
 
@@ -14,10 +14,15 @@ public class DeterministicSelect {
             throw new IllegalArgumentException("Invalid input");
         }
         mc.startTimer();
-        mc.enterRecursion();  // Начало основной рекурсии/итерации
+        mc.enterRecursion();
         int index = selectIndex(array, 0, array.length - 1, k);
         mc.exitRecursion();
         long elapsedTime = mc.stopTimer();
+        try {
+            mc.writeToCsv("data/select_metrics.csv", array.length, elapsedTime);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return array[index];
     }
 
@@ -42,29 +47,22 @@ public class DeterministicSelect {
                 result = pivotIndex;
                 break;
             } else if (k < rank) {
-                // Нужна левая часть
                 int leftSize = rank;
                 int rightSize = high - pivotIndex;
                 if (leftSize <= rightSize) {
-                    // Левая меньше — рекурсия на маленькую
                     result = selectIndex(array, low, pivotIndex - 1, k);
                     break;
                 } else {
-                    // Левая больше — итеративно продолжаем на большую
                     high = pivotIndex - 1;
-                    // k не меняется
                 }
             } else {
-                // Нужна правая часть
                 int leftSize = rank;
                 int rightSize = high - pivotIndex;
                 int newK = k - (rank + 1);
                 if (rightSize <= leftSize) {
-                    // Правая меньше — рекурсия на маленькую
                     result = selectIndex(array, pivotIndex + 1, high, newK);
                     break;
                 } else {
-                    // Правая больше — итеративно продолжаем на большую
                     low = pivotIndex + 1;
                     k = newK;
                 }
