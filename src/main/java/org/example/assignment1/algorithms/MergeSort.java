@@ -10,11 +10,6 @@ public class MergeSort {
         mc.startTimer();
         int[] buffer = new int[arr.length];
         mergeSort(arr, buffer, 0, arr.length - 1);
-        try {
-            mc.writeToCsv("mergesort.csv", arr.length, mc.stopTimer());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void mergeSort(int[] arr, int[] buffer, int left, int right) {

@@ -2,13 +2,6 @@ package org.example.assignment1.algorithms;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -34,18 +27,17 @@ public class MergeSortTest {
         assertArrayEquals(expected, arr);
     }
     @Test
-    void testMetricsInCsv() throws IOException {
-        int[] sizes = {1000, 2000, 4000, 8000, 10000, 16000};
-        try (PrintWriter writer = new PrintWriter("mergesort_metrics.csv")) {
-            writer.println("n,time,maxDepth,comparisons");
-            for (int n : sizes) {
-                MergeSort ms = new MergeSort();
-                int[] arr = new int[n];
-                Random rand = new Random(42);
-                for (int i = 0; i < n; i++) arr[i] = rand.nextInt(1000000);
-                ms.sort(arr);
-            }
+    public void testRandomArrays() {
+        MergeSort ms = new MergeSort();
+        Random rand = new Random();
+        for (int trial = 0; trial < 50; trial++) {
+            int n = rand.nextInt(1000) + 1;
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = rand.nextInt(10000);
+            int[] arrCopy = arr.clone();
+            ms.sort(arrCopy);
+            Arrays.sort(arr); // Ожидаемый результат
+            assertArrayEquals(arr, arrCopy, "Failed for random array, trial " + trial + ", n=" + n);
         }
     }
-
 }

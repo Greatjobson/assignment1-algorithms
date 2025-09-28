@@ -12,11 +12,7 @@ public class QuickSort {
         if (arr == null || arr.length == 0) return;
         mc.startTimer();
         quickSort(arr, 0, arr.length - 1);
-        try {
-            mc.writeToCsv("quicksort_metrics.csv", arr.length, mc.stopTimer());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
     }
 
     private void quickSort(int[] arr, int low, int high) {
